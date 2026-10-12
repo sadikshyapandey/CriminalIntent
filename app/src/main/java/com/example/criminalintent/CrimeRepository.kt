@@ -1,38 +1,30 @@
+
 package com.example.criminalintent
 
+import android.content.Context
+import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
-object CrimeRepository {
+class CrimeRepository(context: Context) {
 
-    private val crimes = mutableListOf<Crime>()
+    private val crimeDao =
+        CrimeDatabase.getDatabase(context).crimeDao()
 
-    @Synchronized
-    fun getCrimes(): List<Crime> {
-        return crimes.toList()
+    fun getCrimes(): Flow<List<Crime>> =
+        crimeDao.getCrimes()
+
+    suspend fun getCrime(id: UUID): Crime? =
+        crimeDao.getCrime(id)
+
+    suspend fun addCrime(crime: Crime) {
+        crimeDao.insertCrime(crime)
     }
 
-    @Synchronized
-    fun getCrime(id: UUID): Crime? {
-        return crimes.find { it.id == id }
+    suspend fun updateCrime(crime: Crime) {
+        crimeDao.updateCrime(crime)
     }
 
-    @Synchronized
-    fun addCrime(crime: Crime) {
-        if (crimes.none { it.id == crime.id }) {
-            crimes.add(crime)
-        }
-    }
-
-    @Synchronized
-    fun updateCrime(crime: Crime) {
-        val index = crimes.indexOfFirst { it.id == crime.id }
-        if (index >= 0) {
-            crimes[index] = crime
-        }
-    }
-
-    @Synchronized
-    fun deleteCrime(id: UUID) {
-        crimes.removeAll { it.id == id }
+    suspend fun deleteCrime(crime: Crime) {
+        crimeDao.deleteCrime(crime)
     }
 }
