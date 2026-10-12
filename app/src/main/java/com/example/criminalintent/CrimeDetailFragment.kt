@@ -1,3 +1,4 @@
+
 package com.example.criminalintent
 
 import android.app.DatePickerDialog
@@ -50,8 +51,10 @@ class CrimeDetailFragment : Fragment() {
 
         crime?.let { currentCrime ->
             titleField.setText(currentCrime.title)
+
             dateButton.text =
                 DateFormat.getDateInstance().format(currentCrime.date)
+
             solvedCheckBox.isChecked = currentCrime.isSolved
         }
 
@@ -63,6 +66,7 @@ class CrimeDetailFragment : Fragment() {
             crime?.let { currentCrime ->
                 CrimeRepository.deleteCrime(currentCrime.id)
             }
+
             parentFragmentManager.popBackStack()
         }
 
@@ -75,6 +79,7 @@ class CrimeDetailFragment : Fragment() {
         crime?.let { currentCrime ->
             currentCrime.title = titleField.text.toString()
             currentCrime.isSolved = solvedCheckBox.isChecked
+
             CrimeRepository.updateCrime(currentCrime)
         }
     }
@@ -88,8 +93,8 @@ class CrimeDetailFragment : Fragment() {
 
         DatePickerDialog(
             requireContext(),
-            { _, year, month, day ->
-                calendar.set(year, month, day)
+            { _, year, month, dayOfMonth ->
+                calendar.set(year, month, dayOfMonth)
                 currentCrime.date = calendar.time
 
                 dateButton.text =
@@ -97,6 +102,7 @@ class CrimeDetailFragment : Fragment() {
 
                 CrimeRepository.updateCrime(currentCrime)
             },
+            calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
