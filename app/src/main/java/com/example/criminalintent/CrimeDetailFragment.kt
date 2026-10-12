@@ -97,11 +97,7 @@ class CrimeDetailFragment : Fragment() {
 
                 CrimeRepository.updateCrime(currentCrime)
             },
-            calendar.get(Calendar.YEAR),git add .
-                    git commit -m "Complete CriminalIntent app"
-                    git branch -M main
-                    git remote add origin https://github.com/YOUR-USERNAME/CriminalIntent2.git
-            git push -u origin main
+            calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
         ).show()
